@@ -11,13 +11,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App()
+            MainScreen()
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun AppAndroidPreview() {
-    App()
+    MainScreen()
 }
