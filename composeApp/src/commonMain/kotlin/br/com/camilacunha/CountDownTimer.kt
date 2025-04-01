@@ -12,9 +12,11 @@ import kotlinx.coroutines.launch
 val timer: MutableState<String> = mutableStateOf("Vamos começar?")
 val timeInSeconds: MutableState<Int> = mutableStateOf(0)
 lateinit var job: Job
+val timerIsRunning: MutableState<Boolean> = mutableStateOf(false)
 
 fun start() {
     println("start()")
+    timerIsRunning.value = true
 
     val scope = CoroutineScope(Dispatchers.Default)
     job = scope.launch {
@@ -30,6 +32,7 @@ fun start() {
             }
             timer.value = "Acabou o tempo"
         } finally {
+            timerIsRunning.value = false
             println("finally")
         }
         println("start")
