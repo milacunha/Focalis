@@ -54,7 +54,8 @@ fun MainContent(
     settingsButton: () -> Unit,
     historyButton: () -> Unit,
     focusButton: () -> Unit,
-    cycleButton: () -> Unit
+    cycleButton: () -> Unit,
+    controlText: String
 ) {
     Box(
         modifier = Modifier
@@ -112,14 +113,15 @@ fun MainContent(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            ElegantButton(controlButton = controlButton)
+            ElegantButton(controlButton = controlButton, controlText = controlText)
         }
     }
 }
 
 @Composable
 fun ElegantButton(
-    controlButton: () -> Unit
+    controlButton: () -> Unit,
+    controlText: String
 ) {
     Button(
         onClick = { controlButton.invoke() },
@@ -147,7 +149,7 @@ fun ElegantButton(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "INICIAR",
+                text = controlText.uppercase(),
                 color = Color.White,
                 style = MaterialTheme.typography.button,
                 letterSpacing = 1.sp

@@ -16,6 +16,11 @@ fun MainScreen() {
                 start()
             }
         },
+        controlText = if (shouldStopTimer) {
+            "Parar"
+        } else {
+            "Iniciar"
+        },
         settingsButton = { println("clicked settings button") },
         historyButton = { println("clicked history button") },
         focusButton = { println("clicked focus button") },
