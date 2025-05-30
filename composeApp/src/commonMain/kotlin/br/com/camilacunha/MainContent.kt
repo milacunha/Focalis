@@ -20,13 +20,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -39,12 +43,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import br.com.camilacunha.theme.ElegantOrangeTheme
 
 @Composable
@@ -187,7 +193,7 @@ fun ElegantModeChip(
             .background(backgroundColor)
             .clickable(
                 interactionSource = interactionSource,
-                indication = null, // Remove o efeito padrão
+                indication = null,
                 onClick = clickButton
             )
             .padding(horizontal = 24.dp, vertical = 12.dp),
@@ -206,7 +212,8 @@ fun ElegantModeChip(
 
 @Composable
 fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
-    var selectedMode by remember { mutableStateOf("") } // Estado inicial
+    var selectedMode by remember { mutableStateOf("") }
+    var showFocoDialog by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -220,6 +227,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             clickButton = {
                 selectedMode = "Foco"
                 focusButton.invoke()
+                showFocoDialog = true
             }
         )
         ElegantModeChip(
@@ -228,8 +236,143 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             clickButton = {
                 selectedMode = "Ciclos"
                 cycleButton.invoke()
+                showFocoDialog = true
             }
         )
+    }
+
+    if (showFocoDialog) {
+        AlertDialog(
+            onDismissRequest = { showFocoDialog = false },
+            title = {
+                Text(
+                    "MODO FOCO",
+                    style = MaterialTheme.typography.h6.copy(
+                        letterSpacing = 1.sp,
+                        color = ElegantOrangeTheme.PrimaryOrange
+                    )
+                )
+            },
+            text = {
+                Column {
+                    Text(
+                        "Configure sua sessão:",
+                        style = MaterialTheme.typography.body2,
+                        color = ElegantOrangeTheme.TextSecondary
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+
+                    VintageTimePicker(
+                        initialMinutes = 25,
+                        onTimeSelected = { mins -> /* Atualiza timer */ }
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showFocoDialog = false
+                        selectedMode = "Foco"
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = ElegantOrangeTheme.PrimaryOrange
+                    )
+                ) {
+                    Text("CONFIRMAR")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showFocoDialog = false },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = ElegantOrangeTheme.TextSecondary
+                    )
+                ) {
+                    Text("CANCELAR")
+                }
+            },
+            shape = RoundedCornerShape(12.dp),
+            backgroundColor = ElegantOrangeTheme.BackgroundGradientStart,
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            modifier = Modifier
+                .border(
+                    width = 2.dp,
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            ElegantOrangeTheme.PrimaryOrange.copy(alpha = 0.3f),
+                            Color.Transparent
+                        )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .background(
+                    color = ElegantOrangeTheme.BackgroundGradientStart,
+                    shape = RoundedCornerShape(12.dp)
+                )
+        )
+    }
+}
+
+@Composable
+fun VintageTimePicker(
+    initialMinutes: Int,
+    onTimeSelected: (Int) -> Unit
+) {
+    var minutes by remember { mutableStateOf(initialMinutes) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(vertical = 8.dp)
+    ) {
+        IconButton(
+            onClick = { if (minutes > 1) minutes-- },
+            modifier = Modifier.size(36.dp)
+        ) {
+            Icon(
+                Icons.Default.Done,
+                contentDescription = "Reduzir",
+                tint = ElegantOrangeTheme.PrimaryOrange
+            )
+        }
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .width(80.dp)
+                .height(48.dp)
+                .background(
+                    color = ElegantOrangeTheme.PrimaryOrange.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .border(
+                    width = 1.dp,
+                    color = ElegantOrangeTheme.PrimaryOrange.copy(alpha = 0.3f),
+                    shape = RoundedCornerShape(8.dp)
+                )
+        ) {
+            Text(
+                text = "$minutes min",
+                style = MaterialTheme.typography.h6.copy(
+                    color = ElegantOrangeTheme.PrimaryOrange
+                )
+            )
+        }
+
+        IconButton(
+            onClick = { if (minutes < 120) minutes++ },
+            modifier = Modifier.size(36.dp)
+        ) {
+            Icon(
+                Icons.Default.Add,
+                contentDescription = "Aumentar",
+                tint = ElegantOrangeTheme.PrimaryOrange
+            )
+        }
     }
 }
 

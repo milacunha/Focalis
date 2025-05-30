@@ -15,8 +15,8 @@ object ElegantOrangeTheme {
     val TextPrimary = Color(0xFF263238)  // Quase preto com tom mineral
     val TextSecondary = Color(0xFF607D8B)  // Cinza azulado
 
-    private val BackgroundGradientStart = Color(0xFFFFF8F2)
-    private val BackgroundGradientEnd = Color(0xFFFFE0B2)
+    val BackgroundGradientStart = Color(0xFFFFF8F2)
+    val BackgroundGradientEnd = Color(0xFFFFE0B2)
     val BackgroundGradient = Brush.verticalGradient(
         colors = listOf(BackgroundGradientStart, BackgroundGradientEnd)
     )
