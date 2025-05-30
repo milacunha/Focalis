@@ -30,7 +30,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
@@ -52,6 +51,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import br.com.camilacunha.theme.ElegantOrangeTheme
+import org.jetbrains.compose.resources.painterResource
+import pomodoro.composeapp.generated.resources.Res
+import pomodoro.composeapp.generated.resources.icon_remove
 
 @Composable
 fun MainContent(
@@ -213,7 +215,8 @@ fun ElegantModeChip(
 @Composable
 fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
     var selectedMode by remember { mutableStateOf("") }
-    var showFocoDialog by remember { mutableStateOf(false) }
+    var showFocusDialog by remember { mutableStateOf(false) }
+    var showCyclesDialog by remember { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
@@ -227,7 +230,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             clickButton = {
                 selectedMode = "Foco"
                 focusButton.invoke()
-                showFocoDialog = true
+                showFocusDialog = true
             }
         )
         ElegantModeChip(
@@ -236,17 +239,17 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             clickButton = {
                 selectedMode = "Ciclos"
                 cycleButton.invoke()
-                showFocoDialog = true
+                showCyclesDialog = true
             }
         )
     }
 
-    if (showFocoDialog) {
+    if (showFocusDialog) {
         AlertDialog(
-            onDismissRequest = { showFocoDialog = false },
+            onDismissRequest = { showFocusDialog = false },
             title = {
                 Text(
-                    "MODO FOCO",
+                    "FOCO",
                     style = MaterialTheme.typography.h6.copy(
                         letterSpacing = 1.sp,
                         color = ElegantOrangeTheme.PrimaryOrange
@@ -264,7 +267,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
                     Spacer(Modifier.height(16.dp))
 
                     VintageTimePicker(
-                        initialMinutes = 25,
+                        initialCycles = 25,
                         onTimeSelected = { mins -> /* Atualiza timer */ }
                     )
                 }
@@ -272,7 +275,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             confirmButton = {
                 TextButton(
                     onClick = {
-                        showFocoDialog = false
+                        showFocusDialog = false
                         selectedMode = "Foco"
                     },
                     colors = ButtonDefaults.textButtonColors(
@@ -284,7 +287,83 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             },
             dismissButton = {
                 TextButton(
-                    onClick = { showFocoDialog = false },
+                    onClick = { showFocusDialog = false },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = ElegantOrangeTheme.TextSecondary
+                    )
+                ) {
+                    Text("CANCELAR")
+                }
+            },
+            shape = RoundedCornerShape(12.dp),
+            backgroundColor = ElegantOrangeTheme.BackgroundGradientStart,
+            properties = DialogProperties(
+                dismissOnBackPress = true,
+                dismissOnClickOutside = true
+            ),
+            modifier = Modifier
+                .border(
+                    width = 2.dp,
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            ElegantOrangeTheme.PrimaryOrange.copy(alpha = 0.3f),
+                            Color.Transparent
+                        )
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                .background(
+                    color = ElegantOrangeTheme.BackgroundGradientStart,
+                    shape = RoundedCornerShape(12.dp)
+                )
+        )
+    }
+
+    if (showCyclesDialog) {
+        AlertDialog(
+            onDismissRequest = { showCyclesDialog = false },
+            title = {
+                Text(
+                    "CICLOS",
+                    style = MaterialTheme.typography.h6.copy(
+                        letterSpacing = 1.sp,
+                        color = ElegantOrangeTheme.PrimaryOrange
+                    )
+                )
+            },
+            text = {
+                Column {
+                    Text(
+                        "Configure sua sessão:",
+                        style = MaterialTheme.typography.body2,
+                        color = ElegantOrangeTheme.TextSecondary
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+
+                    VintageTimePicker(
+                        initialCycles = 3,
+                        onTimeSelected = { cycles -> /* Atualiza timer */ }
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showCyclesDialog = false
+                        selectedMode = "Ciclos"
+                    },
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = ElegantOrangeTheme.PrimaryOrange
+                    )
+                ) {
+                    Text("CONFIRMAR")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showCyclesDialog = false },
                     colors = ButtonDefaults.textButtonColors(
                         contentColor = ElegantOrangeTheme.TextSecondary
                     )
@@ -320,21 +399,21 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
 
 @Composable
 fun VintageTimePicker(
-    initialMinutes: Int,
+    initialCycles: Int,
     onTimeSelected: (Int) -> Unit
 ) {
-    var minutes by remember { mutableStateOf(initialMinutes) }
+    var cycles by remember { mutableStateOf(initialCycles) }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 8.dp)
     ) {
         IconButton(
-            onClick = { if (minutes > 1) minutes-- },
+            onClick = { if (cycles > 2) cycles-- },
             modifier = Modifier.size(36.dp)
         ) {
             Icon(
-                Icons.Default.Done,
+                painter = painterResource(Res.drawable.icon_remove),
                 contentDescription = "Reduzir",
                 tint = ElegantOrangeTheme.PrimaryOrange
             )
@@ -356,7 +435,7 @@ fun VintageTimePicker(
                 )
         ) {
             Text(
-                text = "$minutes min",
+                text = "$cycles",
                 style = MaterialTheme.typography.h6.copy(
                     color = ElegantOrangeTheme.PrimaryOrange
                 )
@@ -364,11 +443,11 @@ fun VintageTimePicker(
         }
 
         IconButton(
-            onClick = { if (minutes < 120) minutes++ },
+            onClick = { if (cycles < 6) cycles++ },
             modifier = Modifier.size(36.dp)
         ) {
             Icon(
-                Icons.Default.Add,
+                imageVector = Icons.Default.Add,
                 contentDescription = "Aumentar",
                 tint = ElegantOrangeTheme.PrimaryOrange
             )
