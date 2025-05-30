@@ -30,8 +30,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -99,8 +103,8 @@ fun MainContent(
                 // Imagem decorativa de fundo
                 /*
                 Image(
-                    painter = painterResource(resource = Res.drawable.IMG_0292), // Use seu próprio recurso aqui
-                    contentDescription = "Decoração circular",
+                    painter = painterResource(resource = Res.drawable.IMG_0292),
+                    contentDescription = "Decoração",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.width(500.dp)
                 )
@@ -218,6 +222,14 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
     var showFocusDialog by remember { mutableStateOf(false) }
     var showCyclesDialog by remember { mutableStateOf(false) }
 
+    val focusOptions = listOf(
+        FocusOption(Icons.Default.Home, "Estudo"),
+        FocusOption(Icons.Default.Delete, "Lazer"),
+        FocusOption(Icons.Default.Call, "Trabalho"),
+        FocusOption(Icons.Default.ShoppingCart, "Self-Care"),
+        FocusOption(Icons.Default.Email, "Outro")
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -259,16 +271,16 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
             text = {
                 Column {
                     Text(
-                        "Configure sua sessão:",
+                        "Escolha o foco da sua sessão:",
                         style = MaterialTheme.typography.body2,
                         color = ElegantOrangeTheme.TextSecondary
                     )
 
                     Spacer(Modifier.height(16.dp))
 
-                    VintageTimePicker(
-                        initialCycles = 25,
-                        onTimeSelected = { mins -> /* Atualiza timer */ }
+                    FocusOptionsList(
+                        focusList = focusOptions,
+                        onOptionSelected = { }
                     )
                 }
             },
@@ -342,10 +354,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
 
                     Spacer(Modifier.height(16.dp))
 
-                    VintageTimePicker(
-                        initialCycles = 3,
-                        onTimeSelected = { cycles -> /* Atualiza timer */ }
-                    )
+                    VintageTimePicker(initialCycles = 3)
                 }
             },
             confirmButton = {
@@ -398,10 +407,7 @@ fun ElegantModeSelector(focusButton: () -> Unit, cycleButton: () -> Unit) {
 }
 
 @Composable
-fun VintageTimePicker(
-    initialCycles: Int,
-    onTimeSelected: (Int) -> Unit
-) {
+fun VintageTimePicker(initialCycles: Int) {
     var cycles by remember { mutableStateOf(initialCycles) }
 
     Row(
@@ -478,3 +484,73 @@ fun TextIconButton(text: String, icon: ImageVector, click: () -> Unit) {
         }
     }
 }
+
+@Composable
+fun FocusOptionsList(
+    onOptionSelected: () -> Unit,
+    focusList: List<FocusOption>
+) {
+    var selectedMode by remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        focusList.forEach { option ->
+            FocusOptionItem(
+                option = option,
+                isSelected = selectedMode == option.label,
+                onSelected = {
+                    selectedMode = option.label
+                    onOptionSelected.invoke()
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun FocusOptionItem(
+    option: FocusOption,
+    onSelected: () -> Unit,
+    isSelected: Boolean
+) {
+    val backgroundColor by animateColorAsState(
+        if (isSelected) ElegantOrangeTheme.PrimaryOrange.copy(alpha = 0.1f)
+        else Color.Transparent
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onSelected)
+            .background(backgroundColor, RoundedCornerShape(8.dp))
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = option.icon,
+            contentDescription = option.label,
+            tint = if (isSelected) ElegantOrangeTheme.PrimaryOrange
+            else ElegantOrangeTheme.TextSecondary,
+            modifier = Modifier.size(24.dp)
+        )
+
+        Spacer(Modifier.width(8.dp))
+
+        Text(
+            text = option.label,
+            style = MaterialTheme.typography.body1.copy(
+                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
+            ),
+            color = if (isSelected) ElegantOrangeTheme.PrimaryOrange
+            else ElegantOrangeTheme.TextPrimary
+        )
+    }
+}
+
+data class FocusOption(
+    val icon: ImageVector,
+    val label: String
+)
