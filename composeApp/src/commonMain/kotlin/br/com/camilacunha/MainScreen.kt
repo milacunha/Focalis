@@ -7,23 +7,23 @@ fun MainScreen() {
     val shouldStopTimer = timerIsRunning.value
     val timerScreen = showTimeInScreen.value
 
+    val controlText = if (shouldStopTimer) {
+        "Parar"
+    } else {
+        "Iniciar"
+    }
+
     MainContent(
         timeInScreen = timerScreen,
-        controlButton = {
+        controlClick = {
             if (shouldStopTimer) {
                 stop()
             } else {
                 start()
             }
         },
-        controlText = if (shouldStopTimer) {
-            "Parar"
-        } else {
-            "Iniciar"
-        },
-        settingsButton = { println("clicked settings button") },
-        historyButton = { println("clicked history button") },
-        focusButton = { println("clicked focus button") },
-        cycleButton = { println("clicked cycle button") }
+        controlText = controlText,
+        menuOptions = MenuOptions.entries,
+        focusOptions = FocusOptions.entries
     )
 }
