@@ -9,18 +9,18 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-val timer: MutableState<String> = mutableStateOf("Vamos começar?")
-val timeInSeconds: MutableState<Int> = mutableStateOf(0)
+val showTimeInScreen: MutableState<String> = mutableStateOf("5")
 lateinit var job: Job
 val timerIsRunning: MutableState<Boolean> = mutableStateOf(false)
 
 fun start() {
     println("start()")
     timerIsRunning.value = true
+    showTimeInScreen.value = "5"
 
     val scope = CoroutineScope(Dispatchers.Default)
     job = scope.launch {
-        val timerInSeconds = timeInSeconds.value
+        val timerInSeconds = showTimeInScreen.value.toInt()
         var seconds = timerInSeconds
 
         try {
@@ -30,7 +30,8 @@ fun start() {
                 delay(1000)
                 seconds -= 1
             }
-            timer.value = "Acabou o tempo"
+            showTimeInScreen.value = "00:00"
+            println("Acabou o tempo")
         } finally {
             timerIsRunning.value = false
             println("finally")
@@ -44,7 +45,8 @@ fun stop() {
 
     CoroutineScope(Dispatchers.Default).launch {
         job.cancelAndJoin()
-        timer.value = "Timer cancelado"
+        showTimeInScreen.value = "00:00"
+        println("Timer cancelado")
     }
     println("stop")
 }
@@ -57,7 +59,7 @@ fun showTime(totalSeconds: Int) {
     val formattedMinutes = minutes.toString().padStart(2, '0')
     val formattedSeconds = seconds.toString().padStart(2, '0')
 
-    timer.value = "$formattedMinutes:$formattedSeconds"
+    showTimeInScreen.value = "$formattedMinutes:$formattedSeconds"
     println("showTime")
 }
 

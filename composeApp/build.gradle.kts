@@ -107,6 +107,11 @@ android {
 
 dependencies {
     implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.ui.graphics.android)
+    implementation(libs.androidx.ui.text.android)
+    implementation(libs.androidx.animation.android)
     debugImplementation(compose.uiTooling)
 }
 

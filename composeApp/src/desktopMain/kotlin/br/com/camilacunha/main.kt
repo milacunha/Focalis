@@ -9,15 +9,15 @@ import androidx.compose.ui.window.rememberWindowState
 
 fun main() = application {
     val state = rememberWindowState(
-        size = DpSize(400.dp, 250.dp),
-        position = WindowPosition(300.dp, 300.dp)
+        size = DpSize(450.dp, 550.dp),
+        position = WindowPosition(100.dp, 100.dp)
     )
 
     Window(
-        title = "Fuso",
+        title = "Pomodoro",
         onCloseRequest = ::exitApplication,
         state = state
     ) {
-        App()
+        MainScreen()
     }
 }
