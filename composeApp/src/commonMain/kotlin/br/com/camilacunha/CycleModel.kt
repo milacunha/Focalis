@@ -1,7 +1,7 @@
 package br.com.camilacunha
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Call
 import androidx.compose.runtime.getValue
@@ -37,6 +37,6 @@ enum class MenuOptions(val label: String, val icon: ImageVector, val click: () -
         click = { println("clicked settings button") }),
     HISTORY(
         label = "Histórico",
-        icon = Icons.Default.Home,
+        icon = Icons.Default.Refresh,
         click = { println("clicked settings button") })
 }
