@@ -1,21 +1,79 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
+# **Focalis - Pomodoro Multiplataforma**  
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+**🚀 Um cronômetro do método Pomodoro, construído com Kotlin Multiplatform (KMP) e Compose Multiplatform (CMP), rodando em 4 plataformas:**  
+- 📱 **Android**  
+- 🍏 **iOS**  
+- 🖥️ **Desktop** (Windows, macOS, Linux)  
+- 🌐 **Web**  
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+---
 
+## **✨ Tecnologias Principais**  
+- **💻 Kotlin Multiplatform (KMP)** – Código compartilhado entre todas as plataformas  
+- **🎨 Jetpack Compose Multiplatform (CMP)** – UI declarativa e unificada  
+- **📱 Compose for Android, iOS, Desktop e Web** – Mesmo design em todas as plataformas  
+- **⚡ Coroutines + Flow** – Gerenciamento assíncrono eficiente  
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+---
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [GitHub](https://github.com/JetBrains/compose-multiplatform/issues).
+## **📌 Funcionalidades**  
+✔ **Cronômetro Pomodoro clássico e presonalizável** (25min trabalho + 5min pausa)  
+✔ **Modos personalizáveis** (Foco, Ciclos, Intervalos)  
+✔ **Responsivo** – Adapta-se a smartphones, tablets e desktops  
 
-You can open the web application by running the `:composeApp:wasmJsBrowserDevelopmentRun` Gradle task.
+---
+
+## **📲 Plataformas Suportadas**  
+| **Plataforma**  | **Status** | **Observação** |  
+|----------------|-----------|----------------|  
+| **Android**    | ✅ 100%   | Jetpack Compose Nativo |  
+| **iOS**        | ✅ 100%   | Compose via Kotlin/Native |  
+| **Desktop**    | ✅ 100%   | Windows, macOS e Linux |  
+| **Web**        | ✅ 100%   | Compose for Web (Canvas) |  
+
+---
+
+## **🎨 Design & Arquitetura**  
+- **Padrão MVI (Model-View-Intent)** para gerenciamento de estado  
+- **UI 100% Compose** – Zero XML, zero SwiftUI  
+
+---
+
+## **📂 Estrutura do Projeto**  
+```
+focalis/
+├── shared/           # Código KMP comum (ViewModel, lógica de negócios)
+│   ├── src/commonMain
+│   ├── src/androidMain
+│   └── src/iosMain
+├── androidApp/       # Aplicativo Android
+├── iosApp/           # Aplicativo iOS (SwiftUI bridge se necessário)
+├── desktopApp/       # Aplicativo Desktop (JVM)
+└── webApp/           # Aplicativo Web (Kotlin/JS)
+```
+
+---
+
+## **🚀 Roadmap Futuro**  
+- [ ] **Implementação dos tempos ativo e descanso**
+- [ ] **Implementação dos ciclos**
+- [ ] **Personalização dos tempos ativo e descanso**
+- [ ] **Personalização dos ciclos**
+- [ ] **Banco de dados local** (Room)
+- [ ] **Estatísticas de ciclos**
+- [ ] **Implementar pausa de notificações**
+- [ ] **Implementar tela sempre ligada**
+- [ ] **Adicionar animações e sons de efeito** (UI)
+- [ ] **Implementar login** (Firebase)
+- [ ] **Sincronização em nuvem** (Firebase)
+- [ ] **Teste unitários** (Android)
+- [ ] **Testes instrumentados** (Android)
+
+---
+
+## 📝 Autora
+
+Projeto estruturado, desenvolvido e documentado por **Camila Cunha**
+
+- [Github](https://github.com/milacunha)
+- [LinkedIn](https://www.linkedin.com/in/camila-s-e-cunha/)
