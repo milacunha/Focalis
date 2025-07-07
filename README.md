@@ -1,4 +1,4 @@
-# **Focalis - Pomodoro Multiplataforma**  
+# **Pomodoro Multiplataforma**  
 
 **🚀 Um cronômetro do método Pomodoro, construído com Kotlin Multiplatform (KMP) e Compose Multiplatform (CMP), rodando em 4 plataformas:**  
 - 📱 **Android**  
