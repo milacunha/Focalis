@@ -2,6 +2,7 @@ package br.com.camilacunha.focalis
 
 import androidx.compose.ui.window.ComposeUIViewController
 import br.com.camilacunha.focalis.di.appModule
+import br.com.camilacunha.focalis.presentation.ui.TimerScreen
 import org.koin.core.context.startKoin
 import platform.UIKit.UIViewController
 
@@ -12,5 +13,5 @@ fun MainViewController(): UIViewController {
         startKoin { modules(appModule) }
         koinStarted = true
     }
-    return ComposeUIViewController { App() }
+    return ComposeUIViewController { TimerScreen() }
 }
