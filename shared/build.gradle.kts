@@ -66,6 +66,10 @@ kotlin {
     }
 }
 
+compose.resources {
+    packageOfResClass = "br.com.camilacunha.focalis.resources"
+}
+
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
 }

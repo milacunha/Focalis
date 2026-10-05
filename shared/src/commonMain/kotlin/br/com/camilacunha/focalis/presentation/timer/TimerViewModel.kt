@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.camilacunha.focalis.domain.model.TimerEvent
 import br.com.camilacunha.focalis.domain.model.TimerState
 import br.com.camilacunha.focalis.domain.timer.TimerEngine
+import br.com.camilacunha.focalis.presentation.audio.SoundPlayer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,6 +28,7 @@ import kotlin.time.Duration.Companion.milliseconds
  */
 class TimerViewModel(
     private val engine: TimerEngine,
+    private val soundPlayer: SoundPlayer
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(snapshot())
@@ -39,7 +41,14 @@ class TimerViewModel(
 
     init {
         viewModelScope.launch {
-            engine.events.collect { _events.emit(it) }
+            engine.events.collect { event ->
+
+                if (event == TimerEvent.Finished || event == TimerEvent.ResetByInactivity) {
+                    soundPlayer.play()
+                }
+
+                _events.emit(event)
+            }
         }
     }
 
