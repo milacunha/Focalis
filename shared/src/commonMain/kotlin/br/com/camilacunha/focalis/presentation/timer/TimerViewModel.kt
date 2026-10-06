@@ -6,6 +6,8 @@ import br.com.camilacunha.focalis.domain.model.TimerEvent
 import br.com.camilacunha.focalis.domain.model.TimerState
 import br.com.camilacunha.focalis.domain.timer.TimerEngine
 import br.com.camilacunha.focalis.presentation.audio.SoundPlayer
+import br.com.camilacunha.focalis.presentation.player.YoutubePlayer
+import br.com.camilacunha.focalis.presentation.player.YoutubeUrlParser
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,6 +38,9 @@ class TimerViewModel(
 
     private val _events = MutableSharedFlow<TimerEvent>(extraBufferCapacity = 8)
     val events: SharedFlow<TimerEvent> = _events.asSharedFlow()
+
+    private val _youtubePlayer = MutableStateFlow<YoutubePlayer?>(null)
+    val youtubePlayer: StateFlow<YoutubePlayer?> = _youtubePlayer.asStateFlow()
 
     private var tickJob: Job? = null
 
@@ -106,6 +111,19 @@ class TimerViewModel(
 
     private fun snapshot(): TimerUiState =
         TimerUiState.from(state = engine.state, remaining = engine.remaining())
+
+    fun openYoutube(rawInput: String): Boolean {
+        val id = YoutubeUrlParser.extractId(rawInput) ?: return false
+        _youtubePlayer.value = YoutubePlayer(
+            embedUrl = YoutubeUrlParser.toEmbedUrl(id),
+            externalUrl = YoutubeUrlParser.toWatchUrl(id),
+        )
+        return true
+    }
+
+    fun closeYoutube() {
+        _youtubePlayer.value = null
+    }
 
     private companion object {
         const val TICK_INTERVAL_MS = 250L

@@ -2,11 +2,16 @@ package br.com.camilacunha.focalis.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,25 +27,27 @@ import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
 import br.com.camilacunha.focalis.presentation.timer.shouldKeepScreenOn
 import org.koin.compose.viewmodel.koinViewModel
 
-/**
- * Tela única. Consome TimerViewModel e compõe os subcomponentes.
- *
- * Regra de ouro do layout: timer sempre visível; botões sempre acessíveis.
- * Espaço reservado pra player (YouTube/Spotify) no futuro: o `Spacer` no meio
- * já antecipa isso sem implementar nada ainda.
- */
 @Composable
 fun TimerScreen(
     viewModel: TimerViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val youtubePlayer by viewModel.youtubePlayer.collectAsStateWithLifecycle()
 
     KeepScreenOn(enabled = state.phase.shouldKeepScreenOn())
 
     val snackbarHostState = remember { SnackbarHostState() }
+    var showYoutubeDialog by remember { mutableStateOf(false) }
 
     var minutesText by remember(state.durationMinutes, state.phase) {
         mutableStateOf(state.durationMinutes.toString())
+    }
+
+    if (showYoutubeDialog) {
+        YoutubeUrlDialog(
+            onDismiss = { showYoutubeDialog = false },
+            onConfirm = viewModel::openYoutube,
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -49,38 +56,69 @@ fun TimerScreen(
         }
     }
 
+    val playerOpen = youtubePlayer != null
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .padding(innerPadding),
         ) {
-            DurationInput(
-                minutesText = minutesText,
-                canEdit = state.canEditDuration,
-                onValueChange = { newText ->
-                    minutesText = newText
-                    newText.toIntOrNull()?.let { viewModel.setDuration(it) }
-                },
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                TextButton(onClick = { showYoutubeDialog = true }) {
+                    Text("▶", style = MaterialTheme.typography.titleLarge)
+                }
+                // TODO ("Spotify entra aqui no Passo 8")
+            }
 
-            TimerDisplay(
-                formatted = state.formattedRemaining,
-                modifier = Modifier.padding(vertical = 32.dp),
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(if (playerOpen) 0.4f else 1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                DurationInput(
+                    minutesText = minutesText,
+                    canEdit = state.canEditDuration,
+                    onValueChange = { newText ->
+                        minutesText = newText
+                        newText.toIntOrNull()?.let { viewModel.setDuration(it) }
+                    },
+                )
 
-            TimerControls(
-                phase = state.phase,
-                onStart = viewModel::start,
-                onPause = viewModel::pause,
-                onResume = viewModel::resume,
-                onReset = viewModel::reset,
-            )
+                TimerDisplay(
+                    formatted = state.formattedRemaining,
+                    modifier = Modifier.padding(vertical = 32.dp),
+                )
+
+                TimerControls(
+                    phase = state.phase,
+                    onStart = viewModel::start,
+                    onPause = viewModel::pause,
+                    onResume = viewModel::resume,
+                    onReset = viewModel::reset,
+                )
+            }
+
+            if (youtubePlayer != null) {
+                val yt = youtubePlayer!!
+                PlayerArea(
+                    embedUrl = yt.embedUrl,
+                    externalUrl = yt.externalUrl,
+                    onClose = viewModel::closeYoutube,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.6f),
+                )
+            }
         }
     }
 }
