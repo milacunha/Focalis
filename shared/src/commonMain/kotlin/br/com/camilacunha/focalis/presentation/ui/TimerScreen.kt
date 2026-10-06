@@ -17,7 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
 import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
+import br.com.camilacunha.focalis.presentation.timer.shouldKeepScreenOn
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -32,6 +34,9 @@ fun TimerScreen(
     viewModel: TimerViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    KeepScreenOn(enabled = state.phase.shouldKeepScreenOn())
+
     val snackbarHostState = remember { SnackbarHostState() }
 
     var minutesText by remember(state.durationMinutes, state.phase) {
