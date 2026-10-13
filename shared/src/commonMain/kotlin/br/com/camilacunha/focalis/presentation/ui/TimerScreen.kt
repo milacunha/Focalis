@@ -32,12 +32,14 @@ fun TimerScreen(
     viewModel: TimerViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val youtubePlayer by viewModel.youtubePlayer.collectAsStateWithLifecycle()
+    val activePlayer by viewModel.activePlayer.collectAsStateWithLifecycle()
+    val playerOpen = activePlayer != null
 
     KeepScreenOn(enabled = state.phase.shouldKeepScreenOn())
 
     val snackbarHostState = remember { SnackbarHostState() }
     var showYoutubeDialog by remember { mutableStateOf(false) }
+    var showSpotifyDialog by remember { mutableStateOf(false) }
 
     var minutesText by remember(state.durationMinutes, state.phase) {
         mutableStateOf(state.durationMinutes.toString())
@@ -50,13 +52,18 @@ fun TimerScreen(
         )
     }
 
+    if (showSpotifyDialog) {
+        SpotifyUrlDialog(
+            onDismiss = { showSpotifyDialog = false },
+            onConfirm = viewModel::openSpotify,
+        )
+    }
+
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             snackbarHostState.showSnackbar(event.toUserMessage())
         }
     }
-
-    val playerOpen = youtubePlayer != null
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -66,18 +73,6 @@ fun TimerScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                TextButton(onClick = { showYoutubeDialog = true }) {
-                    Text("▶", style = MaterialTheme.typography.titleLarge)
-                }
-                // TODO ("Spotify entra aqui no Passo 8")
-            }
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -108,16 +103,30 @@ fun TimerScreen(
                 )
             }
 
-            if (youtubePlayer != null) {
-                val yt = youtubePlayer!!
+            if (activePlayer != null) {
+                val yt = activePlayer!!
                 PlayerArea(
                     embedUrl = yt.embedUrl,
                     externalUrl = yt.externalUrl,
-                    onClose = viewModel::closeYoutube,
+                    onClose = viewModel::closePlayer,
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(0.6f),
                 )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                TextButton(onClick = { showYoutubeDialog = true }) {
+                    Text("▶", style = MaterialTheme.typography.titleLarge)
+                }
+                TextButton(onClick = { showSpotifyDialog = true }) {
+                    Text("♫", style = MaterialTheme.typography.titleLarge)
+                }
             }
         }
     }
