@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import br.com.camilacunha.focalis.presentation.player.WebPlayer
 import br.com.camilacunha.focalis.presentation.theme.FocalisShapes
+import br.com.camilacunha.focalis.presentation.ui.components.TextIcon
 import br.com.camilacunha.focalis.resources.Res
 import br.com.camilacunha.focalis.resources.close_player
 import org.jetbrains.compose.resources.stringResource

@@ -27,14 +27,21 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
 import br.com.camilacunha.focalis.presentation.player.ActivePlayer
+import br.com.camilacunha.focalis.presentation.player.DEFAULT_SPOTIFY_URL
+import br.com.camilacunha.focalis.presentation.player.DEFAULT_YOUTUBE_URL
 import br.com.camilacunha.focalis.presentation.theme.ThemeViewModel
 import br.com.camilacunha.focalis.presentation.timer.TimerPhase
 import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
 import br.com.camilacunha.focalis.presentation.timer.shouldKeepScreenOn
+import br.com.camilacunha.focalis.presentation.ui.components.TextIcon
 import br.com.camilacunha.focalis.resources.Res
 import br.com.camilacunha.focalis.resources.change_theme
+import br.com.camilacunha.focalis.resources.error_invalid_spotify_url
+import br.com.camilacunha.focalis.resources.error_invalid_youtube_url
 import br.com.camilacunha.focalis.resources.open_spotify
 import br.com.camilacunha.focalis.resources.open_youtube
+import br.com.camilacunha.focalis.resources.spotify_dialog_title
+import br.com.camilacunha.focalis.resources.youtube_dialog_title
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -58,13 +65,19 @@ fun TimerScreen(
     }
 
     if (showYoutubeDialog) {
-        YoutubeUrlDialog(
+        UrlDialog(
+            title = stringResource(Res.string.youtube_dialog_title),
+            initialUrl = DEFAULT_YOUTUBE_URL,
+            errorMessage = stringResource(Res.string.error_invalid_youtube_url),
             onDismiss = { showYoutubeDialog = false },
             onConfirm = viewModel::openYoutube,
         )
     }
     if (showSpotifyDialog) {
-        SpotifyUrlDialog(
+        UrlDialog(
+            title = stringResource(Res.string.spotify_dialog_title),
+            initialUrl = DEFAULT_SPOTIFY_URL,
+            errorMessage = stringResource(Res.string.error_invalid_spotify_url),
             onDismiss = { showSpotifyDialog = false },
             onConfirm = viewModel::openSpotify,
         )

@@ -1,0 +1,21 @@
+<resources>
+    <string name="duration_label">minutos</string>
+    <string name="timer_start">iniciar</string>
+    <string name="timer_pause">pausar</string>
+    <string name="timer_resume">retomar</string>
+    <string name="timer_reset">resetar</string>
+    <string name="url_field_label">link url</string>
+    <string name="dialog_open_player">abrir</string>
+    <string name="dialog_close">cancelar</string>
+
+    <string name="youtube_dialog_title">youtube</string>
+    <string name="spotify_dialog_title">spotify</string>
+
+    <string name="error_invalid_youtube_url">url inválida. ex: https://youtu.be/VIDEO_ID</string>
+    <string name="error_invalid_spotify_url">url inválida. ex: https://open.spotify.com/track/ID</string>
+
+    <string name="change_theme">✪</string>
+    <string name="open_youtube">▶</string>
+    <string name="open_spotify">♫</string>
+    <string name="close_player">✕</string>
+</resources>

@@ -1,4 +1,4 @@
-package br.com.camilacunha.focalis.presentation.ui
+package br.com.camilacunha.focalis.presentation.ui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
