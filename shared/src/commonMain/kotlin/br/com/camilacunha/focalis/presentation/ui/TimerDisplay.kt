@@ -7,14 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 
-/**
- * Mostra MM:SS grande no centro da tela.
- * Sem lógica — recebe string pronta.
- */
 @Composable
 internal fun TimerDisplay(
     formatted: String,
@@ -26,10 +19,8 @@ internal fun TimerDisplay(
     ) {
         Text(
             text = formatted,
-            fontSize = 96.sp,
-            fontWeight = FontWeight.Light,
-            fontFamily = FontFamily.Monospace,
             style = MaterialTheme.typography.displayLarge,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
