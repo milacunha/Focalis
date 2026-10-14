@@ -98,21 +98,47 @@ class TimerViewModelPlayerTest {
         assertIs<ActivePlayer.Youtube>(vm.activePlayer.value)
     }
 
-    // ---------- Fechar ----------
+    // ---------- Esconder ----------
 
     @Test
-    fun closePlayerClears() = runTest(testDispatcher) {
+    fun hidePlayerKeepsActivePlayerLoaded() = runTest(testDispatcher) {
         val vm = newViewModel()
         vm.openYoutube(youtubeUrl)
-        vm.closePlayer()
-        assertNull(vm.activePlayer.value)
+        assertTrue(vm.playerVisible.value)
+
+        vm.hidePlayer()
+        assertFalse(vm.playerVisible.value)
+        assertIs<ActivePlayer.Youtube>(vm.activePlayer.value)  // continua carregado
     }
 
     @Test
-    fun closeOnEmptyIsNoOp() = runTest(testDispatcher) {
+    fun showPlayerRestoresVisibility() = runTest(testDispatcher) {
         val vm = newViewModel()
-        vm.closePlayer()
-        assertNull(vm.activePlayer.value)
+        vm.openSpotify(spotifyUrl)
+        vm.hidePlayer()
+        assertFalse(vm.playerVisible.value)
+
+        vm.showPlayer()
+        assertTrue(vm.playerVisible.value)
+        assertIs<ActivePlayer.Spotify>(vm.activePlayer.value)
+    }
+
+    @Test
+    fun showPlayerOnEmptyIsNoOp() = runTest(testDispatcher) {
+        val vm = newViewModel()
+        vm.showPlayer()
+        assertFalse(vm.playerVisible.value)
+    }
+
+    @Test
+    fun openingOtherPlayerReplacesHiddenOne() = runTest(testDispatcher) {
+        val vm = newViewModel()
+        vm.openYoutube(youtubeUrl)
+        vm.hidePlayer()
+
+        vm.openSpotify(spotifyUrl)
+        assertTrue(vm.playerVisible.value)
+        assertIs<ActivePlayer.Spotify>(vm.activePlayer.value)
     }
 
     // ---------- URLs embutidas ----------

@@ -43,6 +43,9 @@ class TimerViewModel(
     private val _activePlayer = MutableStateFlow<ActivePlayer?>(null)
     val activePlayer: StateFlow<ActivePlayer?> = _activePlayer.asStateFlow()
 
+    private val _playerVisible = MutableStateFlow(false)
+    val playerVisible: StateFlow<Boolean> = _playerVisible.asStateFlow()
+
     private var tickJob: Job? = null
 
     init {
@@ -119,6 +122,7 @@ class TimerViewModel(
             embedUrl = YoutubeUrlParser.toEmbedUrl(id),
             externalUrl = YoutubeUrlParser.toWatchUrl(id),
         )
+        _playerVisible.value = true
         return true
     }
 
@@ -128,11 +132,18 @@ class TimerViewModel(
             embedUrl = SpotifyUrlParser.toEmbedUrl(content),
             externalUrl = SpotifyUrlParser.toWatchUrl(content),
         )
+        _playerVisible.value = true
         return true
     }
 
-    fun closePlayer() {
-        _activePlayer.value = null
+    fun showPlayer() {
+        if (_activePlayer.value != null) {
+            _playerVisible.value = true
+        }
+    }
+
+    fun hidePlayer() {
+        _playerVisible.value = false
     }
 
     private companion object {

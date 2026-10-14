@@ -1,10 +1,13 @@
 package br.com.camilacunha.focalis.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
+import br.com.camilacunha.focalis.presentation.player.ActivePlayer
+import br.com.camilacunha.focalis.presentation.timer.TimerPhase
 import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
 import br.com.camilacunha.focalis.presentation.timer.shouldKeepScreenOn
 import org.koin.compose.viewmodel.koinViewModel
@@ -33,7 +38,7 @@ fun TimerScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val activePlayer by viewModel.activePlayer.collectAsStateWithLifecycle()
-    val playerOpen = activePlayer != null
+    val playerVisible by viewModel.playerVisible.collectAsStateWithLifecycle()
 
     KeepScreenOn(enabled = state.phase.shouldKeepScreenOn())
 
@@ -51,7 +56,6 @@ fun TimerScreen(
             onConfirm = viewModel::openYoutube,
         )
     }
-
     if (showSpotifyDialog) {
         SpotifyUrlDialog(
             onDismiss = { showSpotifyDialog = false },
@@ -73,25 +77,58 @@ fun TimerScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Column(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(if (playerOpen) 0.4f else 1f),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                /* TODO("seletor de imagens") */
+                TextButton(
+                    onClick = {
+                        val current = activePlayer
+                        if (current is ActivePlayer.Spotify && !playerVisible) {
+                            viewModel.showPlayer()
+                        } else {
+                            showSpotifyDialog = true
+                        }
+                    },
+                ) {
+                    Text("✪", style = MaterialTheme.typography.titleLarge)
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            ) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                DurationInput(
-                    minutesText = minutesText,
-                    canEdit = state.canEditDuration,
-                    onValueChange = { newText ->
-                        minutesText = newText
-                        newText.toIntOrNull()?.let { viewModel.setDuration(it) }
-                    },
-                )
+                Box(
+                    modifier = Modifier.height(80.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (state.phase == TimerPhase.Idle) {
+                        DurationInput(
+                            minutesText = minutesText,
+                            canEdit = state.canEditDuration,
+                            onValueChange = { newText ->
+                                minutesText = newText
+                                newText.toIntOrNull()?.let { viewModel.setDuration(it) }
+                            },
+                        )
+                    }
+                }
 
                 TimerDisplay(
                     formatted = state.formattedRemaining,
-                    modifier = Modifier.padding(vertical = 32.dp),
+                    modifier = Modifier.padding(vertical = 16.dp),
                 )
 
                 TimerControls(
@@ -103,28 +140,48 @@ fun TimerScreen(
                 )
             }
 
-            if (activePlayer != null) {
-                val yt = activePlayer!!
+                if (activePlayer != null && playerVisible) {
+                val p = activePlayer!!
                 PlayerArea(
-                    embedUrl = yt.embedUrl,
-                    externalUrl = yt.externalUrl,
-                    onClose = viewModel::closePlayer,
+                    embedUrl = p.embedUrl,
+                    externalUrl = p.externalUrl,
+                    onClose = viewModel::hidePlayer,
                     modifier = Modifier
+                        .align(Alignment.BottomCenter)
                         .fillMaxWidth()
-                        .weight(0.6f),
+                        .fillMaxHeight(0.30f),
                 )
+            }
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.End,
             ) {
-                TextButton(onClick = { showYoutubeDialog = true }) {
+                TextButton(
+                    onClick = {
+                        val current = activePlayer
+                        if (current is ActivePlayer.Youtube && !playerVisible) {
+                            viewModel.showPlayer()
+                        } else {
+                            showYoutubeDialog = true
+                        }
+                    },
+                ) {
                     Text("▶", style = MaterialTheme.typography.titleLarge)
                 }
-                TextButton(onClick = { showSpotifyDialog = true }) {
+                TextButton(
+                    onClick = {
+                        val current = activePlayer
+                        if (current is ActivePlayer.Spotify && !playerVisible) {
+                            viewModel.showPlayer()
+                        } else {
+                            showSpotifyDialog = true
+                        }
+                    },
+                ) {
                     Text("♫", style = MaterialTheme.typography.titleLarge)
                 }
             }
