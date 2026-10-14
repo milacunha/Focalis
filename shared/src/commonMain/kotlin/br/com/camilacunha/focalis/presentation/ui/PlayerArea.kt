@@ -1,6 +1,5 @@
 package br.com.camilacunha.focalis.presentation.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,9 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import br.com.camilacunha.focalis.presentation.player.WebPlayer
+import br.com.camilacunha.focalis.presentation.theme.FocalisShapes
 
 @Composable
 internal fun PlayerArea(
@@ -34,9 +33,11 @@ internal fun PlayerArea(
             modifier = Modifier
                 .wrapContentSize()
                 .padding(top = 42.dp)
-                .border(1.dp,
+                .border(
+                    1.dp,
                     MaterialTheme.colorScheme.outline,
-                    RoundedCornerShape(8.dp)),
+                    FocalisShapes.extraSmall
+                ),
         ) {
             WebPlayer(
                 embedUrl = embedUrl,
@@ -52,6 +53,7 @@ internal fun PlayerArea(
             Text(
                 text = "✕",
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
             )
         }
     }

@@ -2,14 +2,18 @@ package br.com.camilacunha.focalis.presentation.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import br.com.camilacunha.focalis.resources.Res
+import br.com.camilacunha.focalis.resources.duration_label
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Campo de duração em minutos. Só fica habilitado quando canEdit=true.
@@ -34,10 +38,15 @@ internal fun DurationInput(
             },
             enabled = canEdit,
             singleLine = true,
-            label = { Text("Minutos") },
+            textStyle = MaterialTheme.typography.bodyMedium,
+            label = {
+                Text(
+                    text = stringResource(Res.string.duration_label),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.width(120.dp),
         )
-        Text("  (5–60)", modifier = Modifier)
     }
 }
