@@ -1,19 +1,20 @@
 package br.com.camilacunha.focalis
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.camilacunha.focalis.presentation.theme.FocalisTheme
+import br.com.camilacunha.focalis.presentation.theme.ThemeViewModel
 import br.com.camilacunha.focalis.presentation.ui.TimerScreen
-import br.com.camilacunha.focalis.resources.Res
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun App() {
-    LaunchedEffect(Unit) {
-        val bytes = Res.readBytes("files/beep.wav")
-        println("Focalis: wav lido, ${bytes.size} bytes")
-    }
 
-    MaterialTheme {
+    val themeViewModel: ThemeViewModel = koinViewModel()
+    val theme by themeViewModel.theme.collectAsStateWithLifecycle()
+
+    FocalisTheme(theme = theme) {
         TimerScreen()
     }
 }
