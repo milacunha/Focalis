@@ -85,14 +85,7 @@ fun TimerScreen(
             ) {
                 /* TODO("seletor de imagens") */
                 TextButton(
-                    onClick = {
-                        val current = activePlayer
-                        if (current is ActivePlayer.Spotify && !playerVisible) {
-                            viewModel.showPlayer()
-                        } else {
-                            showSpotifyDialog = true
-                        }
-                    },
+                    onClick = {},
                 ) {
                     Text("✪", style = MaterialTheme.typography.titleLarge)
                 }
