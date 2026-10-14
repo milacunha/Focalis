@@ -27,14 +27,21 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
 import br.com.camilacunha.focalis.presentation.player.ActivePlayer
+import br.com.camilacunha.focalis.presentation.theme.ThemeViewModel
 import br.com.camilacunha.focalis.presentation.timer.TimerPhase
 import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
 import br.com.camilacunha.focalis.presentation.timer.shouldKeepScreenOn
+import br.com.camilacunha.focalis.resources.Res
+import br.com.camilacunha.focalis.resources.change_theme
+import br.com.camilacunha.focalis.resources.open_spotify
+import br.com.camilacunha.focalis.resources.open_youtube
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun TimerScreen(
     viewModel: TimerViewModel = koinViewModel(),
+    themeViewModel: ThemeViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val activePlayer by viewModel.activePlayer.collectAsStateWithLifecycle()
@@ -83,11 +90,12 @@ fun TimerScreen(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 horizontalArrangement = Arrangement.End,
             ) {
-                /* TODO("seletor de imagens") */
-                TextButton(
-                    onClick = {},
-                ) {
-                    Text("✪", style = MaterialTheme.typography.titleLarge)
+                TextButton(onClick = { themeViewModel.cycle() }) {
+                    Text(
+                        text = stringResource(Res.string.change_theme),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
                 }
             }
 
@@ -96,55 +104,55 @@ fun TimerScreen(
                     .fillMaxWidth()
                     .weight(1f),
             ) {
-            Column(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(horizontal = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Box(
-                    modifier = Modifier.height(80.dp),
-                    contentAlignment = Alignment.Center,
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(horizontal = 24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
                 ) {
-                    if (state.phase == TimerPhase.Idle) {
-                        DurationInput(
-                            minutesText = minutesText,
-                            canEdit = state.canEditDuration,
-                            onValueChange = { newText ->
-                                minutesText = newText
-                                newText.toIntOrNull()?.let { viewModel.setDuration(it) }
-                            },
-                        )
+                    Box(
+                        modifier = Modifier.height(80.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        if (state.phase == TimerPhase.Idle) {
+                            DurationInput(
+                                minutesText = minutesText,
+                                canEdit = state.canEditDuration,
+                                onValueChange = { newText ->
+                                    minutesText = newText
+                                    newText.toIntOrNull()?.let { viewModel.setDuration(it) }
+                                },
+                            )
+                        }
                     }
+
+                    TimerDisplay(
+                        formatted = state.formattedRemaining,
+                        modifier = Modifier.padding(vertical = 16.dp),
+                    )
+
+                    TimerControls(
+                        phase = state.phase,
+                        onStart = viewModel::start,
+                        onPause = viewModel::pause,
+                        onResume = viewModel::resume,
+                        onReset = viewModel::reset,
+                    )
                 }
 
-                TimerDisplay(
-                    formatted = state.formattedRemaining,
-                    modifier = Modifier.padding(vertical = 16.dp),
-                )
-
-                TimerControls(
-                    phase = state.phase,
-                    onStart = viewModel::start,
-                    onPause = viewModel::pause,
-                    onResume = viewModel::resume,
-                    onReset = viewModel::reset,
-                )
-            }
-
                 if (activePlayer != null && playerVisible) {
-                val p = activePlayer!!
-                PlayerArea(
-                    embedUrl = p.embedUrl,
-                    externalUrl = p.externalUrl,
-                    onClose = viewModel::hidePlayer,
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .fillMaxHeight(0.30f),
-                )
-            }
+                    val p = activePlayer!!
+                    PlayerArea(
+                        embedUrl = p.embedUrl,
+                        externalUrl = p.externalUrl,
+                        onClose = viewModel::hidePlayer,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.30f),
+                    )
+                }
             }
 
             Row(
@@ -163,7 +171,7 @@ fun TimerScreen(
                         }
                     },
                 ) {
-                    Text("▶", style = MaterialTheme.typography.titleLarge)
+                    TextIcon(stringResource(Res.string.open_youtube))
                 }
                 TextButton(
                     onClick = {
@@ -175,7 +183,7 @@ fun TimerScreen(
                         }
                     },
                 ) {
-                    Text("♫", style = MaterialTheme.typography.titleLarge)
+                    TextIcon(stringResource(Res.string.open_spotify))
                 }
             }
         }
