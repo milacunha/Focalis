@@ -7,7 +7,7 @@ import br.com.camilacunha.focalis.domain.model.TimerEvent
  * Fica isolado aqui pra quando houver n mensagens novas
  */
 internal fun TimerEvent.toUserMessage(): String = when (this) {
-    TimerEvent.Finished -> "Tempo finalizado com sucesso!"
-    TimerEvent.ResetByInactivity -> "Timer cancelado por inatividade."
-    TimerEvent.ResetByUser -> "Timer reiniciado."
+    TimerEvent.Finished -> "tempo finalizado com sucesso"
+    TimerEvent.ResetByInactivity -> "timer cancelado por inatividade"
+    TimerEvent.ResetByUser -> "timer reiniciado"
 }

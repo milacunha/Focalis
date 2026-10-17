@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
@@ -90,7 +92,22 @@ fun TimerScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(snackbarHostState)
+        { data ->
+            Snackbar(
+                modifier = Modifier.padding(bottom = 12.dp),
+                containerColor = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.surface,
+            ) {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = data.visuals.message,
+                    style = MaterialTheme.typography.labelMedium,
+                    textAlign = TextAlign.Center
+                )
+            }
+       }
+                       },
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -100,7 +117,8 @@ fun TimerScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 8.dp),
                 horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = { themeViewModel.cycle() }) {
@@ -142,7 +160,7 @@ fun TimerScreen(
 
                     TimerDisplay(
                         formatted = state.formattedRemaining,
-                        modifier = Modifier.padding(vertical = 16.dp),
+                        modifier = Modifier.padding(vertical = 8.dp),
                     )
 
                     TimerControls(

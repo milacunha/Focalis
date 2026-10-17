@@ -8,7 +8,7 @@ import kotlin.time.Duration.Companion.minutes
  */
 data class TimerConfig(
     val defaultDuration: Duration = 15.minutes,
-    val minDuration: Duration = 1.minutes, //TODO("quando pronto, trocar para 5min")
+    val minDuration: Duration = 1.minutes,
     val maxDuration: Duration = 60.minutes,
     val pauseTimeout: Duration = 3.minutes,
 ) {
