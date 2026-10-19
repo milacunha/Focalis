@@ -13,12 +13,6 @@ class ThemeViewModel : ViewModel() {
     private val _theme = MutableStateFlow(AppTheme.LightTerracotta)
     val theme: StateFlow<AppTheme> = _theme.asStateFlow()
 
-    fun cycle() {
-        val values = AppTheme.entries
-        val next = (values.indexOf(_theme.value) + 1) % values.size
-        _theme.value = values[next]
-    }
-
     fun select(theme: AppTheme) {
         _theme.value = theme
     }

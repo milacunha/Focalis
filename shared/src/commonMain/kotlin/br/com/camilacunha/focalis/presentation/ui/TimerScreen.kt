@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +32,7 @@ import br.com.camilacunha.focalis.presentation.display.KeepScreenOn
 import br.com.camilacunha.focalis.presentation.player.ActivePlayer
 import br.com.camilacunha.focalis.presentation.player.DEFAULT_SPOTIFY_URL
 import br.com.camilacunha.focalis.presentation.player.DEFAULT_YOUTUBE_URL
+import br.com.camilacunha.focalis.presentation.theme.ThemePicker
 import br.com.camilacunha.focalis.presentation.theme.ThemeViewModel
 import br.com.camilacunha.focalis.presentation.timer.TimerPhase
 import br.com.camilacunha.focalis.presentation.timer.TimerViewModel
@@ -55,6 +57,7 @@ fun TimerScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val activePlayer by viewModel.activePlayer.collectAsStateWithLifecycle()
     val playerVisible by viewModel.playerVisible.collectAsStateWithLifecycle()
+    val theme by themeViewModel.theme.collectAsStateWithLifecycle()
 
     KeepScreenOn(enabled = state.phase.shouldKeepScreenOn())
 
@@ -109,26 +112,16 @@ fun TimerScreen(
        }
                        },
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 8.dp),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                TextButton(onClick = { themeViewModel.cycle() }) {
-                    Text(
-                        text = stringResource(Res.string.change_theme),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Spacer(Modifier.height(56.dp))
 
             Box(
                 modifier = Modifier
@@ -217,6 +210,11 @@ fun TimerScreen(
                     TextIcon(stringResource(Res.string.open_spotify))
                 }
             }
+        }
+            ThemePicker(
+                current = theme,
+                onSelect = themeViewModel::select,
+            )
         }
     }
 }
