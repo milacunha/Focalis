@@ -15,8 +15,5 @@
     <string name="error_invalid_youtube_url">url inválida. ex: https://youtu.be/VIDEO_ID</string>
     <string name="error_invalid_spotify_url">url inválida. ex: https://open.spotify.com/track/ID</string>
 
-    <string name="change_theme">✪</string>
-    <string name="open_youtube">▶</string>
-    <string name="open_spotify">♫</string>
     <string name="close_player">✕</string>
 </resources>

@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.camilacunha.focalis.presentation.player.ActivePlayer
 import br.com.camilacunha.focalis.resources.Res
-import br.com.camilacunha.focalis.resources.open_spotify
-import br.com.camilacunha.focalis.resources.open_youtube
+import br.com.camilacunha.focalis.resources.spotify_dialog_title
+import br.com.camilacunha.focalis.resources.youtube_dialog_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -39,7 +39,7 @@ fun MediaActionBar(
             },
             colors = buttonColors
         ) {
-            TextIcon(stringResource(Res.string.open_youtube))
+            TextIcon(stringResource(Res.string.youtube_dialog_title))
         }
 
         Spacer(modifier = Modifier.width(4.dp))
@@ -51,7 +51,7 @@ fun MediaActionBar(
             },
             colors = buttonColors
         ) {
-            TextIcon(stringResource(Res.string.open_spotify))
+            TextIcon(stringResource(Res.string.spotify_dialog_title))
         }
     }
 }
