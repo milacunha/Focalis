@@ -4,6 +4,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
+val blueGlitch = Color(0xFF448AFF)
+val redGlitch = Color(0xFFFF5252)
+
 // Tema 1 — Claro · Terracota & Linho
 private val LightTerracotta = lightColorScheme(
     background = Color(0xFFF5F0E8),
