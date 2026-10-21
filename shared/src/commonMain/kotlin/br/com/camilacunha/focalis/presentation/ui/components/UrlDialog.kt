@@ -1,4 +1,4 @@
-package br.com.camilacunha.focalis.presentation.ui
+package br.com.camilacunha.focalis.presentation.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
