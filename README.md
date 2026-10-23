@@ -155,7 +155,7 @@ O projeto está **concluído** e em uso pessoal. Não há planos para monetizaç
 
 ## ✒️ Autora
 
-Feito com carinho por **[Camila Cunha]**.
+Projeto desenhado, desenvolvido e documentado por **Camila Cunha**
 
 - [LinkedIn](https://www.linkedin.com/in/camila-s-e-cunha/)
 - [GitHub](https://github.com/milacunha)
