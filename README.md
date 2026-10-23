@@ -153,6 +153,29 @@ O projeto está **concluído** e em uso pessoal. Não há planos para monetizaç
 
 ---
 
+## 🙏 Créditos e Agradecimentos
+
+Este projeto não seria possível sem os recursos disponibilizados gratuitamente. 
+
+### 🎵 Áudio
+- **Som de finalização do timer:** Arquivo *upward-beep-chromatic-fifths* criado por **[Mossy4](https://freesound.org/people/Mossy4/)** e disponibilizado no **[Freesound](https://freesound.org/)**.
+  - *[Link do áudio](https://freesound.org/people/Mossy4/sounds/263655/?attribution=javascript%3Avoid%280%29%3B)*
+
+### 🖼️ Imagens e Fundos
+As imagens de fundo dos temas começaram como fotografias reais, mas para alinhar com a proposta visual do app (aconchegante e ilustrado), elas passaram por um processo de **recriação e estilização utilizando Inteligência Artificial**. 
+
+Abaixo estão os créditos das imagens originais que serviram de base para cada tema:
+- **Tema Terracota:** Baseado na foto de **[Camille Minouflet](https://unsplash.com/pt-br/@caminouflet)** no **[Unsplash](https://unsplash.com/pt-br)**.
+  - *[Link da foto original](https://unsplash.com/pt-br/fotografias/foto-de-seashore-d7M5Xramf8g)*
+- **Tema Musgo:** Baseado na foto de **[Sebastian Unrau](https://unsplash.com/pt-br/@sebastian_unrau)** no **[Unsplash](https://unsplash.com/pt-br)**.
+  - *[Link da foto original](https://unsplash.com/pt-br/fotografias/arvores-na-floresta-com-raios-solares-sp-p7uuT0tw)*
+- **Tema Cachoeira:** Baseado na foto de **[Jonatan Pie](https://unsplash.com/pt-br/@r3dmax)** no **[Unsplash](https://unsplash.com/pt-br)**.
+  - *[Link da foto original](https://unsplash.com/pt-br/fotografias/pessoa-na-cachoeira-gelada-de-skogafoss-VlH2eHyE_50)*
+- **Tema Fogueira:** Baseado na foto de **[Clay Banks](https://unsplash.com/pt-br/@claybanks)** no **[Unsplash](https://unsplash.com/pt-br)**.
+  - *[Link da foto original](https://unsplash.com/pt-br/fotografias/uma-sala-de-estar-cheia-de-moveis-e-uma-lareira-Qry84CsaA9o)*
+
+---
+
 ## ✒️ Autora
 
 Projeto desenhado, desenvolvido e documentado por **Camila Cunha**
