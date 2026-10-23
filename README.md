@@ -1,5 +1,12 @@
 # Focalis ⏳
 
+![Kotlin](https://img.shields.io/badge/Kotlin-2.4.20-D4A574?logo=kotlin&logoColor=white)
+![Compose Multiplatform](https://img.shields.io/badge/Compose_Multiplatform-1.12.1-A6463F?logo=jetpackcompose&logoColor=white)
+![Android](https://img.shields.io/badge/Android-minSdk_24-B86B4F?logo=android&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-Suportado-4A6B52?logo=apple&logoColor=white)
+![Desktop](https://img.shields.io/badge/Desktop-Windows-7EB6D4)
+![Status](https://img.shields.io/badge/status-conclu%C3%ADdo-success)
+
 > Um refúgio visual para o seu foco. Um temporizador multiplataforma com conexão ao YouTube e Spotify, temas aconchegantes e fundos imersivos.
 
 O **Focalis** nasceu da necessidade de ter um ambiente de foco sem distrações. Ele roda nativamente em Android, iOS e Desktop (Windows) sem sincronização, sendo um companheiro silencioso para sessões de estudo e trabalho. O grande diferencial é a união de um timer preciso com a possibilidade de ouvir suas playlists favoritas enquanto a interface se adapta ao seu estado de espírito.
