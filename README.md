@@ -15,13 +15,13 @@ O **Focalis** nasceu da necessidade de ter um ambiente de foco sem distrações.
 
 ## 📸 Screenshots
 
-| Tema Terracota | Tema Musgo |
+| Tema Terracota (Timer em Idle) | Tema Musgo (Timer em Andamento) |
 |:---:|:---:|
-| *[Adicione o print aqui]* | *[Adicione o print aqui]* |
+| <img width="983" height="742" alt="image" src="https://github.com/user-attachments/assets/d7652ac1-8c7d-4cea-9e97-f71b56040b39" /> | <img width="983" height="742" alt="image" src="https://github.com/user-attachments/assets/91eac3f3-b794-4fc8-89f6-2139f1dd9bf3" /> |
 
-| Tema Cachoeira | Tema Fogueira (Player Aberto) |
+| Tema Cachoeira (Dialog de Player) | Tema Fogueira (Player Aberto) |
 |:---:|:---:|
-| *[Adicione o print aqui]* | *[Adicione o print aqui]* |
+| <img width="983" height="742" alt="image" src="https://github.com/user-attachments/assets/f84ded49-9d88-46ee-aa8e-6981e5932df0" /> | <img width="983" height="742" alt="image" src="https://github.com/user-attachments/assets/b12c16e0-72b7-48a2-adf7-8aa9ca920bbc" /> |
 
 ---
 
